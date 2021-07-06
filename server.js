@@ -20,40 +20,49 @@ server.use(cors());// make it open to any client
 console.log(weatherData[0].city_name);
 
 // localhost:3001/
-server.get('/',(req,res)=>{
-    res.status(200).send(weatherData)
+server.get('/', (req, res) => {
+    res.status(200).send('Welcome To home')
 })
 
-// localhost:3001/test
-server.get('/test',(request,response)=>{
-    response.status(200).send('my server is working')
-})
 
-// localhost:3001/shoppingList
-let myTargetList = ['shoes', 'bags', 'cat food'];
-server.get('/shoppingList', (request, response) => {
-  response.status(200).send(myTargetList);
-});
+
+
 
 //localhost:3001/weather?lat=&lon=&searchQuery=
-server.get('/weather',(req,res)=>{
+server.get('/weather', (req, res) => {
+
     console.log(req.query);
-    let selectCity = weatherData.find (item =>{
-        if(item.city_name == req.query.searchQuery) {
+    let selectCity = weatherData.find(item => {
+        if (item.city_name == req.query.searchQuery) {
             return item
         }
-        
+
     })
-    res.status(200).send(selectCity);
+    let arrForecast = [];
+
+    class Forecast {
+        constructor(date, description) {
+            this.date = date; //selectCity.data[0].datetime
+            this.description = description;//selectCity.data[0].weather.description
+        }
+    }
+    for (let i = 0; i <= 2; i++) {
+        arrForecast.push(new Forecast(selectCity.data[i].datetime, selectCity.data[i].weather.description))
+    }
+     console.log(arrForecast);
+    res.status(200).send(arrForecast);
+
+    // console.log(selectCity.data[0].datetime);
 })
 
 // handle any route
 // localhost:3001/ANY_ROUTE
-server.get('*',(req,res)=>{
+server.get('*', (req, res) => {
     res.status(404).send('NOT FOUND')
 })
 
 
-server.listen(PORT,()=>{
+server.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
 })
+
