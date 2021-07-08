@@ -1,7 +1,7 @@
 'use strict';
 
 // create a variable to use express library
-const express = require('express'); // npm i express
+const express = require('express'); // npm install express
 
 require('dotenv').config();// npm i dotenv
 
@@ -28,7 +28,7 @@ server.get('/', (req, res) => {
 
 
 
-//localhost:3001/weather?lat=&lon=&searchQuery=
+//localhost:3001/weather?&searchQuery=
 server.get('/weather', (req, res) => {
 
     console.log(req.query);
