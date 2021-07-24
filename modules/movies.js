@@ -22,7 +22,7 @@ function moviesFun(req, res) {
 
     } else {
         axios.get(url).then(moviesData => {
-
+            console.log(moviesData.data.results);
             selectedData = moviesData.data.results.map(item => {
                 return new Movie(item);
             })
