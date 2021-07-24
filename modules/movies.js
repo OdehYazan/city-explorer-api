@@ -10,6 +10,7 @@ function moviesFun(req, res) {
     let selectedData = [];
 
     let userInput = req.query.cityName
+    console.log(userInput)
 
     let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${userInput}`
 
