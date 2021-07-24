@@ -1,68 +1,28 @@
 'use strict';
 
-// create a variable to use express library
-const express = require('express'); // npm install express
-
-require('dotenv').config();// npm i dotenv
-
-// CORS: Cross Origin Resource Sharing
-// to give the permission for who can send me request
+const express = require('express');
+const server = express();
+require('dotenv').config();
 const cors = require('cors');
-
-const weatherData = require('./data/weather.json')
-
-const server = express(); // server has all of the properties and method of express
-
+server.use(cors());
 const PORT = process.env.PORT;
 
-server.use(cors());// make it open to any client
+const moviesFun = require('./modules/movies');
+const weatherFun = require('./modules/weather');
 
-console.log(weatherData[0].city_name);
-
-// localhost:3001/
 server.get('/', (req, res) => {
-    res.status(200).send('Welcome To home')
-})
 
+    res.status(200).send('Home Page')
+});
 
-
-
-
-//localhost:3001/weather?&searchQuery=
-server.get('/weather', (req, res) => {
-
-    console.log(req.query);
-    let selectCity = weatherData.find(item => {
-        if (item.city_name == req.query.searchQuery) {
-            return item
-        }
-
-    })
-    let arrForecast = [];
-
-    class Forecast {
-        constructor(date, description) {
-            this.date = date; //selectCity.data[0].datetime
-            this.description = description;//selectCity.data[0].weather.description
-        }
-    }
-    for (let i = 0; i <= 2; i++) {
-        arrForecast.push(new Forecast(selectCity.data[i].datetime, selectCity.data[i].weather.description))
-    }
-     console.log(arrForecast);
-    res.status(200).send(arrForecast);
-
-    // console.log(selectCity.data[0].datetime);
-})
-
-// handle any route
-// localhost:3001/ANY_ROUTE
 server.get('*', (req, res) => {
-    res.status(404).send('NOT FOUND')
-})
+    res.status(404).send('Not Found');
+});
 
+server.get('/weather', weatherFun);
+server.get('/movies', moviesFun);
 
 server.listen(PORT, () => {
     console.log(`Listening on PORT ${PORT}`);
-})
+});
 
