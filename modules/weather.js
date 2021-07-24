@@ -11,7 +11,7 @@ function weatherFun(req, res) {
 
     const userInput = req.query.cityName;
 
-    let url = `https://api.weatherbit.io/v2.0/forecast/daily?city=${userInput}&key=${process.env.WEATHER_API_KEY}`;
+    let url = `https://api.weatherbit.io/v2.0/forecast/daily?city=${userInput}&key=${process.env.WEATHER_API_KEY}&days=5`;
 
     if (storedMemory[userInput] !== undefined) {
 
@@ -22,7 +22,7 @@ function weatherFun(req, res) {
 
         axios.get(url).then(weatherData => {
 
-            console.log(weatherData.data.data);
+            // console.log(weatherData.data.data);
 
             selectedData = weatherData.data.data.map(item => {
                 return new Weather(item);
